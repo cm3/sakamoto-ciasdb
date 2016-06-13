@@ -1,0 +1,109 @@
+<html>
+<head>
+
+<script src="https://code.jquery.com/jquery-3.0.0.min.js" integrity="sha256-JmvOoLtYsmqlsWxa7mDSLMwa6dZ9rrIdtrrVYRnDRH0=" crossorigin="anonymous"></script>
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+
+<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css" />
+<script src="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js"></script>
+
+<script>
+var adddot = function(_str){
+	if(_str.length==8){
+		return _str.substring(0, 4)+"."+_str.substring(4, 6)+"."+_str.substring(6, 8)
+	}else{
+		return _str;
+	}	
+}
+
+$(document).ready(function(){
+    id = document.URL.match(/[^/]+$/);
+    if(!id){location.href="http://app.cias.kyoto-u.ac.jp/infolib/meta_pub/G0000281Ethiopia";}
+    else{id = id[0]}
+    apiurl = "http://app.cias.kyoto-u.ac.jp/api/sru/json/G0000281Ethiopia?operation=searchRetrieve&version=1.2&query=(mods:relatedItem=%22"+id+".JPG%22)&recordSchema=original&startRecord=1&maximumRecords=1";
+    $.getJSON(apiurl, function(json){
+        var data; 
+        try{data = json["soapenv:Body"]["searchRetrieveResponse"]["records"]["record"]["recordData"][0]}
+        catch(e){console.log(e);}
+        //console.log(data);
+        finally{
+        if(!data){
+            $("#id").text("???");
+            $("#title").text("INVALID DATA");
+            $("#rawdata").text(JSON.stringify(data));
+        }else{
+            $("#id").text(data["c1"]);
+            $("#timestamp").text(adddot(data["c2"]));
+            $("#title").html(data["c5"].replace("\n","<br />\n"));
+var mymap = L.map('map').setView([Number(data["c3"]), Number(data["c4"])], 10);
+L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
+    attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
+    maxZoom: 18,
+    id: 'cm3.0d2nhino',
+    accessToken: 'pk.eyJ1IjoiY20zIiwiYSI6ImNpcGViNDcxNjAwNHN0em5ocHZnNHFyMG0ifQ.2ydnJ72ZsTRNnz2akss1BA'
+}).addTo(mymap);
+var marker = L.marker([Number(data["c3"]), Number(data["c4"])]).addTo(mymap);
+            $("#img").attr("src","http://app.cias.kyoto-u.ac.jp/sakamoto/imgs/"+id+".JPG");
+            $("#rawdata").text(JSON.stringify(data));
+        }
+        }
+    });
+    console.log(id);
+    
+});
+</script>
+
+<style>
+body{
+    margin:2em;
+}
+#img{
+	width:100%;
+}
+#map{
+    width:100%;
+	height:30em;
+}
+/* thank you for great free fonts http://www.fontspace.com/misprinted-type */
+@font-face {
+    font-family: 'dirty_egorecife';
+    src: url('/sakamoto/dirtyego-webfont.woff2') format('woff2'),
+         url('/sakamoto/dirtyego-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+div#timestamp{
+	font-family: 'dirty_egorecife';
+	font-size: 2.5em;
+	color: #AA0000;
+	width:100%;
+	text-align:right;
+}
+span#database_link{
+	font-size: 2em;
+}
+pre#rawdata{
+	display:none;
+}
+</style>
+
+</head>
+<body>
+
+<p><span class="glyphicon glyphicon-paperclip"></span><span id="id"></span></p>
+
+<h1 id="title"></h1>
+<div id="timestamp"></div>
+
+<div class="container-fluid">
+<div class="row">
+  <div class="col-xs-8"><img id="img" /></div>
+  <div class="col-xs-4"><div id="map" class="map"></div><br /><span id="database_link"><a href="http://app.cias.kyoto-u.ac.jp/infolib/meta_pub/G0000281Ethiopia">→データベース検索</a></span></div>
+</div>
+
+<pre id="rawdata"><pre>
+
+</body>
+</html>
