@@ -1,5 +1,7 @@
+<!DOCTYPE html>
 <html>
 <head>
+<meta charset="UTF-8">
 
 <script src="https://code.jquery.com/jquery-3.0.0.min.js" integrity="sha256-JmvOoLtYsmqlsWxa7mDSLMwa6dZ9rrIdtrrVYRnDRH0=" crossorigin="anonymous"></script>
 
@@ -10,6 +12,19 @@
 <script src="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js"></script>
 
 <script>
+var prev = function(){
+	idnum = document.URL.match(/\d+$/);
+	console.log(idnum);
+	if(idnum=='0001'){return undefined;}
+	location.href = 'http://app.cias.kyoto-u.ac.jp/sakamoto/photoid/IMG-'+('000'+String(Number(idnum)-1)).slice(-4);
+}
+
+var next = function(){
+	idnum = document.URL.match(/\d+$/);
+	if(idnum=='0492'){return undefined;}
+	location.href = 'http://app.cias.kyoto-u.ac.jp/sakamoto/photoid/IMG-'+('000'+String(Number(idnum)+1)).slice(-4);
+}
+
 var adddot = function(_str){
 	if(_str.length==8){
 		return _str.substring(0, 4)+"."+_str.substring(4, 6)+"."+_str.substring(6, 8)
@@ -19,6 +34,12 @@ var adddot = function(_str){
 }
 
 $(document).ready(function(){
+
+$(window).keyup(function(e){
+  if(e.keyCode==37){prev();}
+  else if(e.keyCode==39){next();}
+});
+
     id = document.URL.match(/[^/]+$/);
     if(!id){location.href="http://app.cias.kyoto-u.ac.jp/infolib/meta_pub/G0000281Ethiopia";}
     else{id = id[0]}
@@ -31,12 +52,12 @@ $(document).ready(function(){
         finally{
         if(!data){
             $("#id").text("???");
-            $("#title").text("INVALID DATA");
+            $("#description").text("INVALID DATA");
             $("#rawdata").text(JSON.stringify(data));
         }else{
             $("#id").text(data["c1"]);
             $("#timestamp").text(adddot(data["c2"]));
-            $("#title").html(data["c5"].replace("\n","<br />\n"));
+            $("#description").html(data["c5"].replace("\n","<br />\n"));
 var mymap = L.map('map').setView([Number(data["c3"]), Number(data["c4"])], 10);
 L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
     attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
@@ -74,15 +95,20 @@ body{
     font-weight: normal;
     font-style: normal;
 }
+div#description{
+	font-family: serif;
+	width:100%;
+	font-size: 1.5em;
+}
 div#timestamp{
 	font-family: 'dirty_egorecife';
-	font-size: 2.5em;
+	font-size: 2em;
 	color: #AA0000;
 	width:100%;
 	text-align:right;
 }
 span#database_link{
-	font-size: 2em;
+	font-size: 1.5em;
 }
 pre#rawdata{
 	display:none;
@@ -94,7 +120,7 @@ pre#rawdata{
 
 <p><span class="glyphicon glyphicon-paperclip"></span><span id="id"></span></p>
 
-<h1 id="title"></h1>
+<div id="description"></div>
 <div id="timestamp"></div>
 
 <div class="container-fluid">
