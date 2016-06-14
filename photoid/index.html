@@ -3,6 +3,8 @@
 <head>
 <meta charset="UTF-8">
 
+<title>Prof. SAKAMOTO's photo collection</title>
+
 <script src="https://code.jquery.com/jquery-3.0.0.min.js" integrity="sha256-JmvOoLtYsmqlsWxa7mDSLMwa6dZ9rrIdtrrVYRnDRH0=" crossorigin="anonymous"></script>
 
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
@@ -79,6 +81,13 @@ var marker = L.marker([Number(data["c3"]), Number(data["c4"])]).addTo(mymap);
 <style>
 body{
     margin:2em;
+	background-image: url("../assets/bg.jpg");
+}
+#imgdiv{
+	border:10px solid #f7f7f7;
+	-webkit-box-shadow: 5px 10px 8px -6px #8d8c8c;
+	-moz-box-shadow: 5px 10px 8px -6px #8d8c8c;
+	box-shadow: 5px 10px 8px -6px #8d8c8c;
 }
 #img{
 	width:100%;
@@ -90,8 +99,8 @@ body{
 /* thank you for great free fonts http://www.fontspace.com/misprinted-type */
 @font-face {
     font-family: 'dirty_egorecife';
-    src: url('/sakamoto/dirtyego-webfont.woff2') format('woff2'),
-         url('/sakamoto/dirtyego-webfont.woff') format('woff');
+    src: url('../assets/dirtyego-webfont.woff2') format('woff2'),
+         url('../assets/dirtyego-webfont.woff') format('woff');
     font-weight: normal;
     font-style: normal;
 }
@@ -106,6 +115,7 @@ div#timestamp{
 	color: #AA0000;
 	width:100%;
 	text-align:right;
+	opacity: 0.8;
 }
 span#database_link{
 	font-size: 1.5em;
@@ -125,7 +135,7 @@ pre#rawdata{
 
 <div class="container-fluid">
 <div class="row">
-  <div class="col-xs-8"><img id="img" /></div>
+  <div class="col-xs-8"><div id="imgdiv"><img id="img" /></div></div>
   <div class="col-xs-4"><div id="map" class="map"></div><br /><span id="database_link"><a href="http://app.cias.kyoto-u.ac.jp/infolib/meta_pub/G0000281Ethiopia">→データベース検索</a></span></div>
 </div>
 

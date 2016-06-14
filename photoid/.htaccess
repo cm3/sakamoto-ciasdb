@@ -1,0 +1,5 @@
+RewriteEngine on
+RewriteBase /var/www/html/sakamoto/photoid/
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.+)$ /sakamoto/photoid/index.html [L]
