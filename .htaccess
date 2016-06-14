@@ -1,3 +1,0 @@
-RewriteEngine on
-RewriteBase /var/www/html/sakamoto/
-RewriteRule photoid/(.*) /sakamoto/index.html
