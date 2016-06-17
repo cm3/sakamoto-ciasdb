@@ -2,144 +2,58 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name=viewport content="width=device-width, initial-scale=0.8">
 
 <title>Prof. SAKAMOTO's photo collection</title>
 
-<script src="https://code.jquery.com/jquery-3.0.0.min.js" integrity="sha256-JmvOoLtYsmqlsWxa7mDSLMwa6dZ9rrIdtrrVYRnDRH0=" crossorigin="anonymous"></script>
+<!-- axios, MIT -->
+<script src="https://npmcdn.com/axios/dist/axios.min.js"></script>
+<!-- promisejs (for IE), MIT -->
+<script src="https://www.promisejs.org/polyfills/promise-7.0.4.min.js"></script>
 
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+<!-- skeleton-framework, MIT -->
+<link rel="stylesheet" href="../assets/skeleton.min.css">
 
+<!-- leaflet.js, BSD -->
 <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css" />
 <script src="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js"></script>
 
-<script>
-var prev = function(){
-	idnum = document.URL.match(/\d+$/);
-	console.log(idnum);
-	if(idnum=='0001'){return undefined;}
-	location.href = 'http://app.cias.kyoto-u.ac.jp/sakamoto/photoid/IMG-'+('000'+String(Number(idnum)-1)).slice(-4);
-}
+<!-- hammer.js, MIT --> 
+<script src="../assets/hammer.min.js"></script>
 
-var next = function(){
-	idnum = document.URL.match(/\d+$/);
-	if(idnum=='0492'){return undefined;}
-	location.href = 'http://app.cias.kyoto-u.ac.jp/sakamoto/photoid/IMG-'+('000'+String(Number(idnum)+1)).slice(-4);
-}
-
-var adddot = function(_str){
-	if(_str.length==8){
-		return _str.substring(0, 4)+"."+_str.substring(4, 6)+"."+_str.substring(6, 8)
-	}else{
-		return _str;
-	}	
-}
-
-$(document).ready(function(){
-
-$(window).keyup(function(e){
-  if(e.keyCode==37){prev();}
-  else if(e.keyCode==39){next();}
-});
-
-    id = document.URL.match(/[^/]+$/);
-    if(!id){location.href="http://app.cias.kyoto-u.ac.jp/infolib/meta_pub/G0000281Ethiopia";}
-    else{id = id[0]}
-    apiurl = "http://app.cias.kyoto-u.ac.jp/api/sru/json/G0000281Ethiopia?operation=searchRetrieve&version=1.2&query=(mods:relatedItem=%22"+id+".JPG%22)&recordSchema=original&startRecord=1&maximumRecords=1";
-    $.getJSON(apiurl, function(json){
-        var data; 
-        try{data = json["soapenv:Body"]["searchRetrieveResponse"]["records"]["record"]["recordData"][0]}
-        catch(e){console.log(e);}
-        //console.log(data);
-        finally{
-        if(!data){
-            $("#id").text("???");
-            $("#description").text("INVALID DATA");
-            $("#rawdata").text(JSON.stringify(data));
-        }else{
-            $("#id").text(data["c1"]);
-            $("#timestamp").text(adddot(data["c2"]));
-            $("#description").html(data["c5"].replace("\n","<br />\n"));
-var mymap = L.map('map').setView([Number(data["c3"]), Number(data["c4"])], 10);
-L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
-    attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
-    maxZoom: 18,
-    id: 'cm3.0d2nhino',
-    accessToken: 'pk.eyJ1IjoiY20zIiwiYSI6ImNpcGViNDcxNjAwNHN0em5ocHZnNHFyMG0ifQ.2ydnJ72ZsTRNnz2akss1BA'
-}).addTo(mymap);
-var marker = L.marker([Number(data["c3"]), Number(data["c4"])]).addTo(mymap);
-            $("#img").attr("src","http://app.cias.kyoto-u.ac.jp/sakamoto/imgs/"+id+".JPG");
-            $("#rawdata").text(JSON.stringify(data));
-        }
-        }
-    });
-    console.log(id);
-    
-});
-</script>
-
-<style>
-body{
-    margin:2em;
-	background-image: url("../assets/bg.jpg");
-}
-#imgdiv{
-	border:10px solid #f7f7f7;
-	-webkit-box-shadow: 5px 10px 8px -6px #8d8c8c;
-	-moz-box-shadow: 5px 10px 8px -6px #8d8c8c;
-	box-shadow: 5px 10px 8px -6px #8d8c8c;
-}
-#img{
-	width:100%;
-}
-#map{
-    width:100%;
-	height:30em;
-}
-/* thank you for great free fonts http://www.fontspace.com/misprinted-type */
-@font-face {
-    font-family: 'dirty_egorecife';
-    src: url('../assets/dirtyego-webfont.woff2') format('woff2'),
-         url('../assets/dirtyego-webfont.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
-}
-div#description{
-	font-family: serif;
-	width:100%;
-	font-size: 1.5em;
-}
-div#timestamp{
-	font-family: 'dirty_egorecife';
-	font-size: 2em;
-	color: #AA0000;
-	width:100%;
-	text-align:right;
-	opacity: 0.8;
-}
-span#database_link{
-	font-size: 1.5em;
-}
-pre#rawdata{
-	display:none;
-}
-</style>
-
+<!-- original, MIT -->
+<link rel="stylesheet" type="text/css" href="../assets/common.css" />
+<script src="../assets/main.js"></script>
 </head>
+
 <body>
 
-<p><span class="glyphicon glyphicon-paperclip"></span><span id="id"></span></p>
+<div id="loading">Loading ...</div>
 
-<div id="description"></div>
-<div id="timestamp"></div>
-
-<div class="container-fluid">
+<div class="container" id="container">
 <div class="row">
-  <div class="col-xs-8"><div id="imgdiv"><img id="img" /></div></div>
-  <div class="col-xs-4"><div id="map" class="map"></div><br /><span id="database_link"><a href="http://app.cias.kyoto-u.ac.jp/infolib/meta_pub/G0000281Ethiopia">→データベース検索</a></span></div>
+	<div id="description"></div>
+	<span id="timestamp"></span>
 </div>
+<div class="row">
+  <div id="col_img" class="columns">
+	<div id="imgdiv"><img id="img" /></div></div>
+  <div id="col_map" class="columns">
+	<div id="map" class="map"></div>
+	<nav class="u-text-center"><a id="link_prev" onclick="javascript:prev()">←前の写真</a> | <a id="link_next" onclick="javascript:next()">次の写真→</a><br />（写真をスワイプor←→キーでも遷移します）</nav>
+	<ul id="footer">
+		<li class="u-text-right">Data from <a href="http://app.cias.kyoto-u.ac.jp/infolib/meta_pub/G0000281Ethiopia">阪本寧男フィールド写真ＤＢ</a></li>
+		<li><ul id="id">
+			<li id="noteid"></li>
+			<li id="photoid"></li>
+		</ul></li>
+		<li class="u-text-right">&copy; SAKAMOTO Sadao &copy; CIAS</li>
+	</ul>
+  </div>
+</div></div>
 
-<pre id="rawdata"><pre>
+<pre id="rawdata"></pre>
 
 </body>
 </html>
