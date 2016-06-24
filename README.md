@@ -20,6 +20,7 @@
 - [axios](https://github.com/mzabriskie/axios) for Promise, asynchronous I/O,  and polyfill for IE from [promisejs](https://www.promisejs.org/)
 - [Leaflet](http://leafletjs.com/) and [Mapbox](https://www.mapbox.com/) for map
 - [skeleton-framework](https://github.com/skeleton-framework/skeleton-framework) for responsive web design
+- [blazy.js](http://dinbror.dk/blazy/) for image lazy loading
 - [Dirty Ego font by Misprinted Type](http://www.fontspace.com/misprinted-type/dirty-ego)
 - and Prof. SAKAMOTO Sadao
 
