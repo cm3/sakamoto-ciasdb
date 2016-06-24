@@ -1,0 +1,11 @@
+/* photogrid.css */
+#photogrid .columns{
+	padding: 5px;
+}
+#photogrid img{
+	width: 100%;
+}
+p.left{
+	width: 100%;
+	text-align: left;
+}

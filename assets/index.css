@@ -1,0 +1,23 @@
+/* top.css */
+div#col_imgs figure{
+	width: 100%;
+}
+div#col_imgs img{
+	width: 100%;
+	border-radius: 10px;
+	-webkit-border-radius: 10px;
+	-moz-border-radius: 10px;
+}
+#photolist .columns{
+	padding: 5px;
+}
+#photolist img{
+	width: 100%;
+}
+h1 span{
+	white-space: nowrap;
+}
+p.right{
+	width: 100%;
+	text-align: right;
+}
