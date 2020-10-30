@@ -8,7 +8,7 @@ div#col_imgs img{
 #photolist .columns{
 	padding: 5px;
 }
-#photolist img{
+#photolist img, #col_description img{
 	width: 100%;
 }
 h1 span{
