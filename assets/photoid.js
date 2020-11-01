@@ -9,7 +9,7 @@ var prev = function(){
 		prevObj.style.color = "grey";
 		return undefined;
 	}
-	location.href = 'https://app.cseas.kyoto-u.ac.jp/sakamoto/photoid/IMG-'+('000'+String(Number(idnum)-1)).slice(-4);
+	location.href = './IMG-'+('000'+String(Number(idnum)-1)).slice(-4);
 }
 
 /* 一枚後の写真ページに遷移 */
@@ -23,7 +23,7 @@ var next = function(){
 		prevObj.style.color = "grey";
 		return undefined;
 	}
-	location.href = 'https://app.cseas.kyoto-u.ac.jp/sakamoto/photoid/IMG-'+('000'+String(Number(idnum)+1)).slice(-4);
+	location.href = './IMG-'+('000'+String(Number(idnum)+1)).slice(-4);
 }
 
 /* 日付を . で区切って表現 */
@@ -61,7 +61,7 @@ var fade_out = function(_el){
 /* leafletjs × mapbox */
 var gen_map = function(_lat, _lng){
     var mymap = L.map('map').setView([_lat, _lng], 6);
-    L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
+    L.tileLayer('//api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
     attribution: 'Map data &copy; <a href="https://openstreetmap.org">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://mapbox.com">Mapbox</a>',
     tileSize: 512,
     maxZoom: 18,
@@ -93,12 +93,12 @@ document.addEventListener("DOMContentLoaded", function() {
 
 /* 写真の ID を取得 */
 id = document.URL.match(/[^/]+$/);
-if(!id){location.href="https://app.cseas.kyoto-u.ac.jp/infolib/meta_pub/G0000281Ethiopia";}
+if(!id){location.href="/infolib/meta_pub/G0000281Ethiopia";}
 else{id = id[0]}
 console.log(id);
 
 /* 写真の ID を元に API から情報を取得 */
-apiurl = "https://app.cseas.kyoto-u.ac.jp/api/sru/json/G0000281Ethiopia?operation=searchRetrieve&version=1.2&query=(mods:relatedItem=%22"+id+".JPG%22)&recordSchema=original&startRecord=1&maximumRecords=1";
+apiurl = "/api/sru/json/G0000281Ethiopia?operation=searchRetrieve&version=1.2&query=(mods:relatedItem=%22"+id+".JPG%22)&recordSchema=original&startRecord=1&maximumRecords=1";
 axios.get(apiurl)
     .then(function(json){
     var data;
@@ -113,7 +113,7 @@ axios.get(apiurl)
         document.getElementById("noteid").textContent = "NOTE ID: ";
         document.getElementById("photoid").textContent = "PHOTO ID: "+id;
         var imgObj = document.getElementById("img");
-        imgObj.setAttribute("src","https://app.cseas.kyoto-u.ac.jp/sakamoto/imgs/"+id+".JPG");
+        imgObj.setAttribute("src","../imgs/"+id+".JPG");
         imgObj.onload = function(){
             resize_column(imgObj);
             fade_out(document.getElementById("loading"));
@@ -129,7 +129,7 @@ axios.get(apiurl)
         descObj.insertBefore(timeObj, descObj.firstChild);
 
         var imgObj = document.getElementById("img");
-        imgObj.setAttribute("src","https://app.cseas.kyoto-u.ac.jp/sakamoto/imgs/"+id+".JPG");
+        imgObj.setAttribute("src","../imgs/"+id+".JPG");
         imgObj.onload = function(){
             resize_column(imgObj);
             gen_map(Number(data["c3"]),Number(data["c4"]));

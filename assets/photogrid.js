@@ -47,7 +47,7 @@ var DivFactory = function(_idf){// _idf : instance of IdFactory
             else{
                 var div1=document.createElement('div');
                 div1.className='three columns';
-                div1.innerHTML = "<a href=\"http://app.cias.kyoto-u.ac.jp/sakamoto/photoid/"+nextid+"\"><img src=data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw== data-src=\"http://app.cias.kyoto-u.ac.jp/sakamoto/imgs/"+nextid+".JPG\" class=\"b-lazy\" /></a>";
+                div1.innerHTML = "<a href=\"./photoid/"+nextid+"\"><img src=data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw== data-src=\"./imgs/"+nextid+".JPG\" class=\"b-lazy\" /></a>";
                 nextid = idf.next();
                 //console.log("nextid: "+nextid)
                 return div1;
